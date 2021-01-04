@@ -112,7 +112,7 @@ public class SimpleCanalConnector implements CanalConnector {
             if (!running) {
                 return;
             }
-            doConnect();
+            doConnect();    //Connector 连接 Canal Server
             if (filter != null) { // 如果存在条件，说明是自动切换，基于上一次的条件订阅一次
                 subscribe(filter);
             }
@@ -139,17 +139,18 @@ public class SimpleCanalConnector implements CanalConnector {
         }
     }
 
+    //先handshark再CLIENTAUTHENTICATION
     private InetSocketAddress doConnect() throws CanalClientException {
         try {
-            channel = SocketChannel.open();
+            channel = SocketChannel.open();             //打开通道
             channel.socket().setSoTimeout(soTimeout);
             SocketAddress address = getAddress();
             if (address == null) {
                 address = getNextAddress();
             }
-            channel.connect(address);
-            readableChannel = Channels.newChannel(channel.socket().getInputStream());
-            writableChannel = Channels.newChannel(channel.socket().getOutputStream());
+            channel.connect(address);                   //连接
+            readableChannel = Channels.newChannel(channel.socket().getInputStream());       //用来接收Canal Server发过来的消息
+            writableChannel = Channels.newChannel(channel.socket().getOutputStream());      //用来向Canal Server发送消息
             Packet p = Packet.parseFrom(readNextPacket());
             if (p.getVersion() != 1) {
                 throw new CanalClientException("unsupported version at this client.");
@@ -232,6 +233,7 @@ public class SimpleCanalConnector implements CanalConnector {
             return;
         }
         try {
+            //先write到canal Server，协议是protobuf
             writeWithHeader(Packet.newBuilder()
                 .setType(PacketType.SUBSCRIPTION)
                 .setBody(Sub.newBuilder()
@@ -242,7 +244,7 @@ public class SimpleCanalConnector implements CanalConnector {
                     .toByteString())
                 .build()
                 .toByteArray());
-            //
+            //这里收到Canal应答
             Packet p = Packet.parseFrom(readNextPacket());
             Ack ack = Ack.parseFrom(p.getBody());
             if (ack.getErrorCode() > 0) {

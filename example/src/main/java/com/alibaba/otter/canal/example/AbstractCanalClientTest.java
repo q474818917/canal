@@ -53,8 +53,8 @@ public class AbstractCanalClientTest extends BaseCanalClientTest {
         while (running) {
             try {
                 MDC.put("destination", destination);
-                connector.connect();
-                connector.subscribe();
+                connector.connect();        //连接Canal Server
+                connector.subscribe();      //订阅，不传则是整个库
                 while (running) {
                     Message message = connector.getWithoutAck(batchSize); // 获取指定数量的数据
                     long batchId = message.getId();

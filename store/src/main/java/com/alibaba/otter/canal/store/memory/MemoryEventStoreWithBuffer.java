@@ -25,7 +25,7 @@ import com.alibaba.otter.canal.store.model.Events;
 
 /**
  * 基于内存buffer构建内存memory store
- * 
+ * EventStore 类似SLAVE的relay log,这里具体类是基于内存Disruptor的RingBuffer实现的
  * <pre>
  * 变更记录：
  * 1. 新增BatchMode类型，支持按内存大小获取批次数据，内存大小更加可控.

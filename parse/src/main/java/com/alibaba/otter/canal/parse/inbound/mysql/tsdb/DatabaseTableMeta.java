@@ -233,6 +233,7 @@ public class DatabaseTableMeta implements TableMetaTSDB {
         }
     }
 
+    //构建MetaHistory，调用DAO插入
     private boolean applyHistoryToDB(EntryPosition position, String schema, String ddl, String extra) {
         Map<String, String> content = new HashMap<>();
         content.put("destination", destination);

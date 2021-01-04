@@ -100,3 +100,12 @@ canal 作为 MySQL binlog 增量获取和解析工具，可将变更记录投递
 
 ## 问题反馈
 - 报告 issue: [github issues](https://github.com/alibaba/canal/issues)
+
+版本：
+1.1.5-SNAPSHOT
+
+# 架构：
++ parse：负责从Master上拉去binlog日志，进行解析
++ sink：负责binlog加工处理
++ EventStore：负责存储
++ 最后通过Client长连接请求，或者MQ消息获取binlog
