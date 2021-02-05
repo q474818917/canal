@@ -104,6 +104,12 @@ canal 作为 MySQL binlog 增量获取和解析工具，可将变更记录投递
 版本：
 1.1.5-SNAPSHOT
 
+# 启动：
++ 服务端：deployer模块下的CanalLauncher
++ 客户端：example模块下的SimpleCanalClientTest
+
+
+
 # 架构：
 + parse：负责从Master上拉去binlog日志，进行解析
 + sink：负责binlog加工处理
