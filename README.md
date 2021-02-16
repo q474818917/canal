@@ -111,7 +111,26 @@ canal 作为 MySQL binlog 增量获取和解析工具，可将变更记录投递
 
 
 # 架构：
+一个Canal Server对应多个Instance，每个Instance包含如下几个模块：parse、sink、eventStore
 + parse：负责从Master上拉去binlog日志，进行解析
 + sink：负责binlog加工处理
 + EventStore：负责存储
-+ 最后通过Client长连接请求，或者MQ消息获取binlog
++ 最后通过Client长连接请求，或者MQ消息获取binlog(MQ可以解决多客户端语言问题，同时还有并发问题)
+
+# PS:
++ 关于MQ 消费端并发问题：
+```aidl
+1、按table进行topic划分，一个表对应一个topic
+2、多partition，可以通过配置instance.properties中的partitionHash，将相同id的路由到同一个分区。
+
+这样client端消费binlog时就可以配置多个消费者
+```
+
++ 关于client-adapter：类比etl
+```aidl
+为了解决异构数据同步问题(MySQL -> ES\HBase\Oracle)，
+可以通过配置字段映射关系，将client-adapter编译打包，通过spi方式加载到canal-adapter.launcher中
+同时在binlog被清理的情况下，client-adapter支持全量同步，通过select * from
+完整工程在：client-adapter/launcher
+```
+
