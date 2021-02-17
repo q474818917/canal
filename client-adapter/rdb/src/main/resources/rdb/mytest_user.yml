@@ -4,9 +4,9 @@ groupId: g1
 outerAdapterKey: mysql1
 concurrent: true
 dbMapping:
-  database: mytest
-  table: user
-  targetTable: mytest2.user
+  database: canal_manager
+  table: canal_user
+  targetTable: test.canal_user
   targetPk:
     id: id
 #  mapAll: true
