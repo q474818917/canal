@@ -12,7 +12,7 @@ import com.alibaba.otter.canal.protocol.Message;
 
 /**
  * Kafka client example
- *
+ * 通过监听mq，订阅topic，从MQ获取binlog
  * @author machengyuan @ 2018-6-12
  * @version 1.0.0
  */

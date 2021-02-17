@@ -63,7 +63,11 @@ canal.conf:
           jdbc.driverClassName: com.mysql.jdbc.Driver
           jdbc.url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true
           jdbc.username: root
+<<<<<<< HEAD
           jdbc.password: 12345678
+=======
+          jdbc.password: root
+>>>>>>> ce6c284ee95dde53550582e2148f4eae283a24a4
 #      - name: rdb
 #        key: oracle1
 #        properties:
